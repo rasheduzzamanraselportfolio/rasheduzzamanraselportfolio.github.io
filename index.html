@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rasheduzzaman — Environmental Sustainability Officer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --ink: #0b0f0c;
+  --ink2: #111815;
+  --paper: #f5f2eb;
+  --leaf: #1a5c3a;
+  --leaf2: #24804f;
+  --leaf3: #3aad6b;
+  --gold: #c8a84b;
+  --gold2: #e8c97a;
+  --muted: rgba(245,242,235,0.45);
+  --border: rgba(255,255,255,0.07);
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Syne', sans-serif; background: var(--ink); color: var(--paper); overflow-x: hidden; cursor: none; }
+
+/* CURSOR */
+#cur { width:10px;height:10px;background:var(--leaf3);border-radius:50%;position:fixed;top:0;left:0;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:width .2s,height .2s; }
+#cur-r { width:34px;height:34px;border:1px solid rgba(58,173,107,.45);border-radius:50%;position:fixed;top:0;left:0;z-index:9998;pointer-events:none;transform:translate(-50%,-50%);transition:width .3s,height .3s,opacity .3s; }
+body:has(a:hover) #cur,body:has(button:hover) #cur { width:22px;height:22px; }
+body:has(a:hover) #cur-r,body:has(button:hover) #cur-r { width:56px;height:56px;opacity:.35; }
+
+/* NOISE */
+body::after { content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px; }
+
+/* LOADER */
+#load { position:fixed;inset:0;background:var(--ink);z-index:9000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;transition:opacity .9s,visibility .9s; }
+#load.done { opacity:0;visibility:hidden; }
+.load-name { font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:300;letter-spacing:.08em;color:var(--paper);overflow:hidden; }
+.load-name span { display:inline-block;transform:translateY(110%);animation:slideUp .7s cubic-bezier(.16,1,.3,1) forwards; }
+.load-name span:nth-child(n+2) { animation-delay:calc(.05s * var(--i,1)); }
+.load-bar { width:200px;height:1px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden; }
+.load-fill { height:100%;background:var(--leaf3);animation:loadFill 1.6s cubic-bezier(.7,0,.3,1) forwards; }
+@keyframes loadFill { from{width:0} to{width:100%} }
+@keyframes slideUp { to{transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes scrollDrop {
+  0%{transform:scaleY(0);transform-origin:top}
+  50%{transform:scaleY(1);transform-origin:top}
+  51%{transform:scaleY(1);transform-origin:bottom}
+  100%{transform:scaleY(0);transform-origin:bottom}
+}
+@keyframes pulse2s { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.8)} }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* NAV */
+nav { position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 3rem;display:flex;align-items:center;justify-content:space-between;mix-blend-mode:difference; }
+.n-logo { font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--paper);text-decoration:none;letter-spacing:.06em; }
+.n-links { display:flex;gap:2.2rem; }
+.n-links a { font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,242,235,.5);text-decoration:none;position:relative;transition:color .3s; }
+.n-links a::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--leaf3);transition:width .3s; }
+.n-links a:hover { color:var(--paper); }
+.n-links a:hover::after { width:100%; }
+.n-status { font-size:.68rem;letter-spacing:.1em;color:rgba(245,242,235,.3);display:flex;align-items:center;gap:6px; }
+.dot-live { width:6px;height:6px;border-radius:50%;background:var(--leaf3);animation:pulse2s 2s ease infinite; }
+
+/* HERO */
+#hero { min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden; }
+.h-left { padding:10rem 3rem 5rem;display:flex;flex-direction:column;justify-content:flex-end;position:relative;z-index:2; }
+.h-right { position:relative;overflow:hidden; }
+.h-photo { position:absolute;inset:0;overflow:hidden; }
+.h-photo img { width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(25%) contrast(1.08);transition:transform 8s ease; }
+.h-photo:hover img { transform:scale(1.05); }
+.h-overlay { position:absolute;inset:0;background:linear-gradient(to right,var(--ink) 0%,transparent 35%),linear-gradient(to top,var(--ink) 0%,transparent 28%); }
+.h-tint { position:absolute;inset:0;background:rgba(26,92,58,.15);mix-blend-mode:color; }
+.h-eyebrow { font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--leaf3);margin-bottom:2.2rem;display:flex;align-items:center;gap:12px; }
+.h-eyebrow::before { content:'';width:28px;height:1px;background:var(--leaf3); }
+.h-title { font-family:'Cormorant Garamond',serif;font-size:clamp(4rem,7vw,8rem);font-weight:300;line-height:.9;letter-spacing:-.02em;color:var(--paper);overflow:hidden; }
+.h-title .ln { display:block;overflow:hidden; }
+.h-title .li { display:block;transform:translateY(100%);animation:slideUp .9s cubic-bezier(.16,1,.3,1) forwards; }
+.h-title .ln:nth-child(2) .li { animation-delay:.08s; }
+.h-title em { font-style:italic;color:var(--leaf3); }
+.h-sub { font-size:.9rem;font-weight:400;color:rgba(245,242,235,.42);line-height:1.85;max-width:380px;margin:1.8rem 0 2.8rem;animation:fadeIn 1s .5s ease both; }
+.h-actions { display:flex;align-items:center;gap:1.8rem;animation:fadeIn 1s .7s ease both; }
+.btn-main { display:inline-flex;align-items:center;gap:10px;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--paper);padding:13px 26px;border-radius:100px;text-decoration:none;position:relative;overflow:hidden;transition:color .35s,transform .3s; }
+.btn-main::before { content:'';position:absolute;inset:0;background:var(--leaf3);transform:translateX(-100%);transition:transform .4s cubic-bezier(.16,1,.3,1); }
+.btn-main:hover { color:#fff;transform:translateY(-2px); }
+.btn-main:hover::before { transform:translateX(0); }
+.btn-main span { position:relative; }
+.h-loc { font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,242,235,.28);display:flex;align-items:center;gap:6px; }
+.h-scroll { position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,242,235,.22);animation:fadeIn 1.5s 1.2s ease both;z-index:2; }
+.scroll-ln { width:1px;height:44px;background:linear-gradient(to bottom,rgba(245,242,235,.28),transparent);animation:scrollDrop 2.2s ease infinite; }
+
+/* RIBBON */
+.ribbon { background:var(--leaf);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.06); }
+.r-stat {}
+.r-num { font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:600;color:var(--paper);line-height:1;display:flex;align-items:flex-end;gap:3px; }
+.r-sup { font-size:1.1rem;color:var(--gold2);margin-bottom:5px; }
+.r-lbl { font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,242,235,.4);margin-top:5px; }
+.r-div { width:1px;height:44px;background:rgba(255,255,255,.1); }
+
+/* SECTIONS */
+.sec { padding:7rem 3rem;max-width:1280px;margin:0 auto; }
+.eye { font-size:.63rem;letter-spacing:.24em;text-transform:uppercase;color:var(--leaf3);margin-bottom:1rem;display:flex;align-items:center;gap:12px; }
+.eye::before { content:'';width:24px;height:1px;background:var(--leaf3); }
+.hd { font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,5vw,5rem);font-weight:300;line-height:1.05;letter-spacing:-.02em;color:var(--paper); }
+.hd em { font-style:italic;color:var(--leaf3); }
+.hd b { font-weight:600; }
+
+/* ABOUT */
+#about { background:var(--ink2); }
+.ab-wrap { max-width:1280px;margin:0 auto;padding:7rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start; }
+.ab-body { font-family:'Cormorant Garamond',serif;font-size:1.42rem;font-weight:300;line-height:1.78;color:rgba(245,242,235,.72);margin:2rem 0; }
+.ab-body strong { color:var(--paper);font-weight:600; }
+.ab-chips { display:flex;flex-wrap:wrap;gap:8px;margin-top:1.5rem; }
+.chip { font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:6px 13px;border-radius:100px;border:1px solid rgba(58,173,107,.22);color:rgba(245,242,235,.45);transition:all .3s;cursor:default; }
+.chip:hover { border-color:var(--leaf3);color:var(--leaf3);background:rgba(58,173,107,.06); }
+.ab-cards { display:grid;gap:1rem; }
+.dc { padding:1.1rem 1.4rem;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.02);display:flex;align-items:flex-start;gap:13px;transition:border-color .3s,transform .3s; }
+.dc:hover { border-color:rgba(58,173,107,.28);transform:translateX(5px); }
+.dc-ico { font-size:1rem;flex-shrink:0;margin-top:2px; }
+.dc-lbl { font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,242,235,.28); }
+.dc-val { font-size:.88rem;color:rgba(245,242,235,.72);margin-top:3px; }
+
+/* EXPERIENCE */
+.exp-grid { display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:4rem;border-top:1px solid var(--border); }
+.ei { padding:2.2rem 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:170px 1fr;gap:2rem;align-items:start;transition:background .3s; }
+.ei:nth-child(odd) { padding-right:3rem;border-right:1px solid var(--border); }
+.ei:nth-child(even) { padding-left:3rem; }
+.ei:hover { background:rgba(255,255,255,.012); }
+.ei-n { font-family:'Cormorant Garamond',serif;font-size:.82rem;color:rgba(245,242,235,.18);letter-spacing:.05em;margin-bottom:.6rem; }
+.ei-date { font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--leaf3); }
+.ei-badge { display:inline-block;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(58,173,107,.14);color:var(--leaf3);border-radius:100px;padding:3px 9px;margin-top:6px; }
+.ei-role { font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--paper);margin-bottom:3px; }
+.ei-org { font-size:.8rem;color:rgba(245,242,235,.38); }
+
+/* EDUCATION */
+#education { background:var(--ink2); }
+.edu-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;margin-top:4rem;background:rgba(255,255,255,.05);border-radius:16px;overflow:hidden;border:1.5px solid rgba(255,255,255,.05); }
+.et { background:var(--ink2);padding:2.2rem 1.8rem;position:relative;overflow:hidden;transition:background .4s; }
+.et::after { content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--leaf3);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.16,1,.3,1); }
+.et:hover { background:rgba(26,92,58,.07); }
+.et:hover::after { transform:scaleX(1); }
+.et-yr { font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem; }
+.et-deg { font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--paper);line-height:1.3;margin-bottom:5px; }
+.et-inst { font-size:.78rem;color:rgba(245,242,235,.38); }
+.et-grade { margin-top:1rem;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--gold); }
+.et-bg { position:absolute;bottom:1rem;right:1.2rem;font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:700;color:rgba(255,255,255,.035);line-height:1;letter-spacing:-.03em;pointer-events:none; }
+
+/* SKILLS */
+.sk-marquee { overflow:hidden;margin:3rem 0; }
+.sk-track { display:flex;gap:0;animation:marquee 26s linear infinite;width:max-content; }
+.sk-track:hover { animation-play-state:paused; }
+.sk-tag { font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:9px 18px;border:1px solid rgba(255,255,255,.07);border-radius:100px;color:rgba(245,242,235,.45);margin:0 5px;white-space:nowrap;flex-shrink:0;transition:border-color .3s,color .3s;cursor:default; }
+.sk-tag:hover { border-color:var(--leaf3);color:var(--leaf3); }
+.sk-cols { display:grid;grid-template-columns:1fr 1fr;gap:0 4rem;margin-top:.5rem; }
+.sk-row { display:flex;align-items:center;justify-content:space-between;padding:.9rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.83rem;color:rgba(245,242,235,.5);transition:color .3s; }
+.sk-row:hover { color:var(--paper); }
+.sk-cat { font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--leaf3);flex-shrink:0;margin-left:1rem; }
+
+/* LANGS */
+.lg-grid { display:flex;flex-wrap:wrap;gap:1rem;margin-top:3rem; }
+.lg-c { flex:1;min-width:100px;padding:1.4rem 1rem;border:1px solid var(--border);border-radius:12px;text-align:center;background:rgba(255,255,255,.02);transition:border-color .3s,transform .3s,background .3s;position:relative;overflow:hidden; }
+.lg-c::after { content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--leaf3);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1); }
+.lg-c:hover { border-color:rgba(58,173,107,.3);transform:translateY(-4px);background:rgba(26,92,58,.06); }
+.lg-c:hover::after { transform:scaleX(1); }
+.lg-f { font-size:1.4rem;margin-bottom:.4rem; }
+.lg-n { font-size:.83rem;color:rgba(245,242,235,.72);font-weight:500; }
+.lg-l { font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--leaf3);margin-top:4px; }
+
+/* AWARDS */
+#awards { background:var(--leaf);position:relative;overflow:hidden; }
+#awards::before { content:'AWARDS';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cormorant Garamond',serif;font-size:20vw;font-weight:700;color:rgba(255,255,255,.04);white-space:nowrap;pointer-events:none; }
+.aw-list { display:grid;gap:0;margin-top:4rem;position:relative;z-index:1; }
+.aw-row { display:flex;align-items:center;padding:1.8rem 0;border-bottom:1px solid rgba(255,255,255,.12);gap:2rem;transition:padding-left .4s cubic-bezier(.16,1,.3,1); }
+.aw-row:hover { padding-left:1.5rem; }
+.aw-n { font-family:'Cormorant Garamond',serif;font-size:.85rem;color:rgba(255,255,255,.22);width:28px;flex-shrink:0; }
+.aw-ico { font-size:1.4rem;flex-shrink:0; }
+.aw-title { font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--paper);flex:1; }
+.aw-when { font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28);text-align:right;flex-shrink:0; }
+
+/* CONTACT */
+#contact { background:var(--paper);color:var(--ink);padding:7rem 3rem;position:relative;overflow:hidden; }
+#contact::before { content:'HELLO';position:absolute;bottom:-3rem;right:-1rem;font-family:'Cormorant Garamond',serif;font-size:18vw;font-weight:700;color:rgba(10,15,12,.04);line-height:1;pointer-events:none; }
+.ct-inner { max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;position:relative;z-index:1; }
+.ct-eye { font-size:.63rem;letter-spacing:.24em;text-transform:uppercase;color:var(--leaf);margin-bottom:1rem;display:flex;align-items:center;gap:12px; }
+.ct-eye::before { content:'';width:24px;height:1px;background:var(--leaf); }
+.ct-hd { font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5vw,5.5rem);font-weight:300;line-height:.92;letter-spacing:-.03em;color:var(--ink);margin-bottom:1.5rem; }
+.ct-hd em { font-style:italic;color:var(--leaf); }
+.ct-desc { font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;color:rgba(10,15,12,.5);line-height:1.85;margin-bottom:2.5rem; }
+.s-row { display:flex;gap:10px;flex-wrap:wrap; }
+.s-btn { display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:100px;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:1.5px solid rgba(10,15,12,.1);color:var(--ink);transition:all .3s; }
+.s-btn:hover { background:var(--leaf);border-color:var(--leaf);color:#fff;transform:translateY(-2px); }
+.s-btn svg { width:13px;height:13px; }
+.ct-links { display:grid;gap:.75rem; }
+.cl { display:flex;align-items:center;gap:13px;padding:1rem 1.3rem;border-radius:10px;text-decoration:none;color:var(--ink);background:rgba(10,15,12,.03);border:1px solid rgba(10,15,12,.08);transition:all .3s; }
+.cl:hover { border-color:var(--leaf);background:rgba(26,92,58,.06);transform:translateX(4px); }
+.cl-ico { width:34px;height:34px;border-radius:8px;background:rgba(26,92,58,.1);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0; }
+.cl-lbl { font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(10,15,12,.32); }
+.cl-val { font-size:.85rem;color:var(--ink);margin-top:2px; }
+
+footer { background:var(--ink);border-top:1px solid rgba(255,255,255,.04);padding:1.8rem 3rem;display:flex;align-items:center;justify-content:space-between; }
+.fc { font-size:.7rem;letter-spacing:.1em;color:rgba(245,242,235,.18); }
+.fl { font-family:'Cormorant Garamond',serif;font-size:.95rem;color:rgba(245,242,235,.28); }
+
+/* REVEAL */
+.rv { opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1); }
+.rv.in { opacity:1;transform:translateY(0); }
+.d1 { transition-delay:.1s; }
+.d2 { transition-delay:.2s; }
+.d3 { transition-delay:.3s; }
+
+/* RESPONSIVE */
+@media (max-width:1024px) {
+  #hero { grid-template-columns:1fr; }
+  .h-right { display:none; }
+  .h-left { padding:9rem 2rem 5rem; }
+  .ab-wrap,.ct-inner { grid-template-columns:1fr;gap:3rem; }
+  .exp-grid { grid-template-columns:1fr; }
+  .ei:nth-child(odd) { border-right:none;padding-right:0; }
+  .ei:nth-child(even) { padding-left:0; }
+  .edu-grid { grid-template-columns:1fr 1fr; }
+  .sk-cols { grid-template-columns:1fr; }
+  nav { padding:1.2rem 2rem; }
+}
+@media (max-width:640px) {
+  .n-links,.n-status { display:none; }
+  .sec,.ab-wrap,#contact { padding:4.5rem 1.5rem; }
+  .ribbon { flex-wrap:wrap;gap:1.5rem;padding:2rem 1.5rem; }
+  .r-div { display:none; }
+  .edu-grid { grid-template-columns:1fr; }
+  .h-left { padding:8rem 1.5rem 4rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- LOADER -->
+<div id="load">
+  <div class="load-name">
+    <span style="--i:1">R</span><span style="--i:2">a</span><span style="--i:3">s</span><span style="--i:4">h</span><span style="--i:5">e</span><span style="--i:6">d</span><span style="--i:7">u</span><span style="--i:8">z</span><span style="--i:9">z</span><span style="--i:10">a</span><span style="--i:11">m</span><span style="--i:12">a</span><span style="--i:13">n</span>
+  </div>
+  <div class="load-bar"><div class="load-fill"></div></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="n-logo">Rasheduzzaman</a>
+  <div class="n-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="n-status"><span class="dot-live"></span>Available for opportunities</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="h-left">
+    <div class="h-eyebrow">Environmental Sustainability Officer — Bangladesh</div>
+    <h1 class="h-title">
+      <span class="ln"><span class="li">Rashed</span></span>
+      <span class="ln"><span class="li" style="animation-delay:.08s"><em>uzzaman</em></span></span>
+    </h1>
+    <p class="h-sub">MSc Environmental Science · 7+ years leading sustainability in Bangladesh's RMG sector — GHG accounting, ESG strategy, Higg compliance &amp; climate risk.</p>
+    <div class="h-actions">
+      <a href="#contact" class="btn-main"><span>Get in Touch</span><span>↗</span></a>
+      <div class="h-loc">📍 Gazipur, Bangladesh</div>
+    </div>
+  </div>
+  <div class="h-right">
+    <div class="h-photo">
+      <img src="Rasheduzzaman.jpg" alt="Rasheduzzaman" onerror="this.parentElement.style.background='linear-gradient(135deg,#1a5c3a 0%,#0b0f0c 100%)'">
+      <div class="h-overlay"></div>
+      <div class="h-tint"></div>
+    </div>
+  </div>
+  <div class="h-scroll"><span>Scroll</span><div class="scroll-ln"></div></div>
+</section>
+
+<!-- STATS RIBBON -->
+<div class="ribbon rv">
+  <div class="r-stat"><div class="r-num"><span id="n1">0</span><span class="r-sup">+</span></div><div class="r-lbl">Years Experience</div></div>
+  <div class="r-div"></div>
+  <div class="r-stat"><div class="r-num"><span id="n2">0</span><span class="r-sup">+</span></div><div class="r-lbl">Frameworks &amp; Standards</div></div>
+  <div class="r-div"></div>
+  <div class="r-stat"><div class="r-num"><span id="n3">0</span></div><div class="r-lbl">PUMA Sustainability Award</div></div>
+  <div class="r-div"></div>
+  <div class="r-stat"><div class="r-num"><span id="n4">0</span></div><div class="r-lbl">Degrees — Khulna Univ.</div></div>
+  <div class="r-div"></div>
+  <div class="r-stat"><div class="r-num"><span id="n5">0</span></div><div class="r-lbl">Languages Spoken</div></div>
+</div>
+
+<!-- ABOUT -->
+<div id="about">
+  <div class="ab-wrap">
+    <div class="rv">
+      <div class="eye">About Me</div>
+      <h2 class="hd">Shaping a <em>Greener</em><br><b>Future</b></h2>
+      <p class="ab-body">With an <strong>MSc in Environmental Science from Khulna University</strong> and 7+ years in Bangladesh's manufacturing sector, I drive measurable sustainability outcomes — from <strong>GHG accounting and ESG strategy</strong> to Higg compliance, biodiversity advisory, and Science Based Targets (SBTi).</p>
+      <p class="ab-body" style="font-size:1.1rem;margin-top:-1rem;">Currently at <strong>Amigo Bangladesh Ltd.</strong> (Crystal International Group) and proud recipient of the <strong>PUMA Sustainability Award 2023</strong>.</p>
+      <div class="ab-chips">
+        <span class="chip">ISO 14001:2015</span><span class="chip">ISO 45001:2015</span><span class="chip">ISO 9001:2015</span><span class="chip">Higg FEM/FDM</span><span class="chip">ZDHC</span><span class="chip">SBTi</span><span class="chip">GRI Index</span><span class="chip">GRS · RCS</span><span class="chip">GOTS · OekoTex</span><span class="chip">Regenagri</span>
+      </div>
+    </div>
+    <div class="rv d1">
+      <div class="eye" style="margin-bottom:1.4rem">Personal Info</div>
+      <div class="ab-cards">
+        <div class="dc"><div class="dc-ico">📧</div><div><div class="dc-lbl">Email</div><div class="dc-val">rasheduzzamanr5@yahoo.com</div></div></div>
+        <div class="dc"><div class="dc-ico">📞</div><div><div class="dc-lbl">Phone / WhatsApp</div><div class="dc-val">+880 1745 872364</div></div></div>
+        <div class="dc"><div class="dc-ico">📍</div><div><div class="dc-lbl">Location</div><div class="dc-val">Dakkhinbagh, Kaliganj, Gazipur-1720</div></div></div>
+        <div class="dc"><div class="dc-ico">🌍</div><div><div class="dc-lbl">Nationality · Status</div><div class="dc-val">Bangladeshi · Married</div></div></div>
+        <div class="dc"><div class="dc-ico">🎂</div><div><div class="dc-lbl">Date of Birth</div><div class="dc-val">15 June 1994</div></div></div>
+        <div class="dc"><div class="dc-ico">⚽</div><div><div class="dc-lbl">Hobbies</div><div class="dc-val">Sports · Travelling · Debating · Social Work</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="sec">
+  <div class="rv"><div class="eye">Career Timeline</div><h2 class="hd">Working<br><em>Experience</em></h2></div>
+  <div class="exp-grid rv d1">
+    <div class="ei"><div><div class="ei-n">01</div><div class="ei-date">08/2023 — Present</div><div class="ei-badge">● Current</div></div><div><div class="ei-role">Environmental Sustainability Officer</div><div class="ei-org">Amigo Bangladesh Ltd. · Crystal International Group</div></div></div>
+    <div class="ei"><div><div class="ei-n">02</div><div class="ei-date">08/2020 — 08/2023</div></div><div><div class="ei-role">Environmental Sustainability Officer</div><div class="ei-org">Ever Smart Bangladesh Ltd.</div></div></div>
+    <div class="ei"><div><div class="ei-n">03</div><div class="ei-date">06/2018 — 08/2020</div></div><div><div class="ei-role">Volunteer Research Assistant</div><div class="ei-org">Coastal Eco-system Research</div></div></div>
+    <div class="ei"><div><div class="ei-n">04</div><div class="ei-date">03/2018 — 06/2018</div></div><div><div class="ei-role">Interpreter</div><div class="ei-org">Wageningen University &amp; Research</div></div></div>
+    <div class="ei"><div><div class="ei-n">05</div><div class="ei-date">06/2017 — 12/2017</div></div><div><div class="ei-role">Intern</div><div class="ei-org">AOSED — Socio-Economic Development</div></div></div>
+    <div class="ei"><div><div class="ei-n">06</div><div class="ei-date">01/2017 — 06/2017</div></div><div><div class="ei-role">Translator</div><div class="ei-org">Living Polder Project</div></div></div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<div id="education">
+  <div class="sec">
+    <div class="rv"><div class="eye">Academic Background</div><h2 class="hd">Education &amp;<br><em>Certifications</em></h2></div>
+    <div class="edu-grid rv d1">
+      <div class="et"><div class="et-yr">2020</div><div class="et-deg">MSc. Environmental Science</div><div class="et-inst">Khulna University</div><div class="et-grade">3.60 / 4.00</div><div class="et-bg">MSc</div></div>
+      <div class="et"><div class="et-yr">2018</div><div class="et-deg">BSc. Environmental Science</div><div class="et-inst">Khulna University</div><div class="et-grade">3.63 / 4.00</div><div class="et-bg">BSc</div></div>
+      <div class="et"><div class="et-yr">2024 – 2025</div><div class="et-deg">PG Diploma, Knitwear Industry Management</div><div class="et-inst">BRAC University</div><div class="et-bg">PGD</div></div>
+      <div class="et"><div class="et-yr">Sept 2022</div><div class="et-deg">ISO 9001:2015 Lead Auditor</div><div class="et-inst">Intertek Certification</div><div class="et-bg">ISO</div></div>
+      <div class="et"><div class="et-yr">2013 · HSC Science</div><div class="et-deg">Rajshahi Board</div><div class="et-inst">Perfect Score</div><div class="et-grade">5.00 / 5.00</div><div class="et-bg">A+</div></div>
+      <div class="et"><div class="et-yr">2010 · SSC Science</div><div class="et-deg">Rajshahi Board</div><div class="et-inst">Perfect Score</div><div class="et-grade">5.00 / 5.00</div><div class="et-bg">A+</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills" class="sec" style="padding-top:0">
+  <div class="rv"><div class="eye">Expertise</div><h2 class="hd">Core <em>Skills</em></h2></div>
+  <div class="sk-marquee rv d1">
+    <div class="sk-track">
+      <span class="sk-tag">GHG Accounting</span><span class="sk-tag">ESG Data Science</span><span class="sk-tag">Higg FEM/FDM</span><span class="sk-tag">ZDHC</span><span class="sk-tag">ISO 14001</span><span class="sk-tag">ISO 45001</span><span class="sk-tag">SBTi</span><span class="sk-tag">GRI Index</span><span class="sk-tag">Circular Economy</span><span class="sk-tag">Climate Risk</span><span class="sk-tag">Biodiversity</span><span class="sk-tag">Supply Chain</span><span class="sk-tag">ArcGIS</span><span class="sk-tag">Python</span><span class="sk-tag">GOTS</span><span class="sk-tag">ETP Management</span><span class="sk-tag">Renewable Energy</span><span class="sk-tag">Waste Management</span><span class="sk-tag">OHS</span><span class="sk-tag">Better Work</span><span class="sk-tag">GHG Accounting</span><span class="sk-tag">ESG Data Science</span><span class="sk-tag">Higg FEM/FDM</span><span class="sk-tag">ZDHC</span><span class="sk-tag">ISO 14001</span><span class="sk-tag">ISO 45001</span><span class="sk-tag">SBTi</span><span class="sk-tag">GRI Index</span><span class="sk-tag">Circular Economy</span><span class="sk-tag">Climate Risk</span><span class="sk-tag">Biodiversity</span><span class="sk-tag">Supply Chain</span><span class="sk-tag">ArcGIS</span><span class="sk-tag">Python</span><span class="sk-tag">GOTS</span><span class="sk-tag">ETP Management</span><span class="sk-tag">Renewable Energy</span><span class="sk-tag">Waste Management</span><span class="sk-tag">OHS</span><span class="sk-tag">Better Work</span>
+    </div>
+  </div>
+  <div class="sk-cols rv d2">
+    <div>
+      <div class="sk-row"><span>Renewable Energy Project Development</span><span class="sk-cat">Energy</span></div>
+      <div class="sk-row"><span>GHG Accounting &amp; ESG Data Science</span><span class="sk-cat">Climate</span></div>
+      <div class="sk-row"><span>Sustainable Supply Chain Management</span><span class="sk-cat">Supply Chain</span></div>
+      <div class="sk-row"><span>Higg FEM, FDM &amp; ZDHC Chemical Mgmt.</span><span class="sk-cat">Compliance</span></div>
+      <div class="sk-row"><span>ISO 14001 / 45001 / 9001 Lead Auditor</span><span class="sk-cat">Standards</span></div>
+      <div class="sk-row"><span>SBTi &amp; Biodiversity / Natural Capital</span><span class="sk-cat">Strategy</span></div>
+      <div class="sk-row"><span>GOTS, OekoTex, GRS, RCS, Regenagri</span><span class="sk-cat">Certification</span></div>
+      <div class="sk-row"><span>Bhive InCheck Compliance</span><span class="sk-cat">Compliance</span></div>
+      <div class="sk-row"><span>ETP &amp; Water Resource Management</span><span class="sk-cat">Environment</span></div>
+      <div class="sk-row"><span>Occupational Health &amp; Safety</span><span class="sk-cat">OHS</span></div>
+    </div>
+    <div>
+      <div class="sk-row"><span>Python &amp; Data Analysis</span><span class="sk-cat">Tech</span></div>
+      <div class="sk-row"><span>ArcGIS / Geographic Information System</span><span class="sk-cat">Tech</span></div>
+      <div class="sk-row"><span>AI Research &amp; Applications</span><span class="sk-cat">Tech</span></div>
+      <div class="sk-row"><span>Microsoft Office Suite (Excel, Word, PPT)</span><span class="sk-cat">Tools</span></div>
+      <div class="sk-row"><span>Adobe Photoshop, Illustrator, Premiere Pro</span><span class="sk-cat">Design</span></div>
+      <div class="sk-row"><span>GRI Index Reporting</span><span class="sk-cat">Reporting</span></div>
+      <div class="sk-row"><span>Better Work, RSC &amp; Nirapon</span><span class="sk-cat">Social</span></div>
+      <div class="sk-row"><span>Circularity &amp; Circular Economy</span><span class="sk-cat">Strategy</span></div>
+      <div class="sk-row"><span>Disaster Risk Reduction &amp; Management</span><span class="sk-cat">Resilience</span></div>
+      <div class="sk-row"><span>Environmental Policy &amp; Governance</span><span class="sk-cat">Policy</span></div>
+    </div>
+  </div>
+  <div class="rv d2" style="margin-top:5rem">
+    <div class="eye">Languages</div>
+    <div class="lg-grid">
+      <div class="lg-c"><div class="lg-f">🇧🇩</div><div class="lg-n">বাংলা</div><div class="lg-l">Native</div></div>
+      <div class="lg-c"><div class="lg-f">🇬🇧</div><div class="lg-n">English</div><div class="lg-l">Proficient</div></div>
+      <div class="lg-c"><div class="lg-f">🇸🇦</div><div class="lg-n">Arabic</div><div class="lg-l">Working</div></div>
+      <div class="lg-c"><div class="lg-f">🇮🇳</div><div class="lg-n">Hindi</div><div class="lg-l">Conversational</div></div>
+      <div class="lg-c"><div class="lg-f">🇵🇰</div><div class="lg-n">Urdu</div><div class="lg-l">Conversational</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<div id="awards">
+  <div class="sec">
+    <div class="rv"><div class="eye" style="color:rgba(245,242,235,.38)">Recognition</div><h2 class="hd">Awards &amp;<br><em>Achievements</em></h2></div>
+    <ul class="aw-list rv d1" style="list-style:none">
+      <li class="aw-row"><div class="aw-n">01</div><div class="aw-ico">🏆</div><div class="aw-title">Sustainability Award — PUMA</div><div class="aw-when">29 May 2023</div></li>
+      <li class="aw-row"><div class="aw-n">02</div><div class="aw-ico">♟</div><div class="aw-title">Runners-up — Inter Hall Chess Competition</div><div class="aw-when">05 Jun 2017</div></li>
+      <li class="aw-row"><div class="aw-n">03</div><div class="aw-ico">🎤</div><div class="aw-title">Runners-up — Inter Hall English Instant Speech</div><div class="aw-when">04 Jun 2017</div></li>
+      <li class="aw-row"><div class="aw-n">04</div><div class="aw-ico">🥇</div><div class="aw-title">Champion — CSE Fest Rubik's Cube Competition</div><div class="aw-when">12 Apr 2017</div></li>
+      <li class="aw-row"><div class="aw-n">05</div><div class="aw-ico">🥉</div><div class="aw-title">Second Runners-up — SNV Competition</div><div class="aw-when">15 Jan 2016</div></li>
+    </ul>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact">
+  <div class="ct-inner">
+    <div class="rv">
+      <div class="ct-eye">Let's Connect</div>
+      <h2 class="ct-hd">Open for<br><em>New Roles</em></h2>
+      <p class="ct-desc">Available for sustainability leadership, ESG advisory, and collaborative research — locally and internationally.</p>
+      <div class="s-row">
+        <a href="https://www.facebook.com/share/1E5Ek6jgeA/" target="_blank" class="s-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>Facebook</a>
+        <a href="https://www.linkedin.com/in/rasheduzzaman-rasel-b8a312123" target="_blank" class="s-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        <a href="https://wa.me/8801745872364" target="_blank" class="s-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>WhatsApp</a>
+      </div>
+    </div>
+    <div class="ct-links rv d1">
+      <a href="mailto:rasheduzzamanr5@yahoo.com" class="cl"><div class="cl-ico">✉️</div><div><div class="cl-lbl">Email</div><div class="cl-val">rasheduzzamanr5@yahoo.com</div></div></a>
+      <a href="tel:+8801745872364" class="cl"><div class="cl-ico">📞</div><div><div class="cl-lbl">Phone / WhatsApp</div><div class="cl-val">+880 1745 872364</div></div></a>
+      <a href="https://www.linkedin.com/in/rasheduzzaman-rasel-b8a312123" target="_blank" class="cl"><div class="cl-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="#0077b5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div><div><div class="cl-lbl">LinkedIn</div><div class="cl-val">rasheduzzaman-rasel-b8a312123</div></div></a>
+      <a href="https://www.facebook.com/share/1E5Ek6jgeA/" target="_blank" class="cl"><div class="cl-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="#4267b2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></div><div><div class="cl-lbl">Facebook</div><div class="cl-val">facebook.com/rasheduzzaman</div></div></a>
+      <a href="https://wa.me/8801745872364" target="_blank" class="cl"><div class="cl-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="#25d366"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div><div><div class="cl-lbl">WhatsApp</div><div class="cl-val">+880 1745 872364</div></div></a>
+      <div class="cl" style="cursor:default"><div class="cl-ico">📍</div><div><div class="cl-lbl">Address</div><div class="cl-val">Dakkhinbagh, Kaliganj, Gazipur-1720, Bangladesh</div></div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="fc">© 2026 Rasheduzzaman · Environmental Sustainability Officer · Gazipur, Bangladesh</div>
+  <div class="fl">R.</div>
+</footer>
+
+<script>
+// Cursor
+const cur=document.getElementById('cur'),cr=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function animC(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(animC);})();
+
+// Loader
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('load').classList.add('done'),1800);});
+
+// Counter
+function count(el,target,dur){let s=null;(function step(ts){if(!s)s=ts;const p=Math.min((ts-s)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(e*target);if(p<1)requestAnimationFrame(step);else el.textContent=target;})(performance.now());}
+
+// IntersectionObserver for reveals + counters
+const rvObs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rvObs.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
+
+const ribbon=document.querySelector('.ribbon');
+const statObs=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){count(document.getElementById('n1'),7,1200);count(document.getElementById('n2'),30,1500);count(document.getElementById('n3'),1,600);count(document.getElementById('n4'),2,800);count(document.getElementById('n5'),5,1000);statObs.disconnect();}},{threshold:.5});
+statObs.observe(ribbon);
+
+// Hero mouse parallax
+const hImg=document.querySelector('.h-photo img');
+if(hImg){document.addEventListener('mousemove',e=>{const rx=(e.clientX/window.innerWidth-.5)*8,ry=(e.clientY/window.innerHeight-.5)*5;hImg.style.transform=`translate(${rx}px,${ry}px) scale(1.06)`;});}
+</script>
+</body>
+</html>
